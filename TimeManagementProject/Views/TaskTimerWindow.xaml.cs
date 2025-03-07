@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -75,6 +76,16 @@ namespace TimeManagementProject.Views
 
 			task.Timer += second;
 			timerDisplayVM.TimerString = task.Timer.ToString();
+		}
+
+		protected override void OnClosing(CancelEventArgs e)
+		{
+			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+			{
+				connection.CreateTable<TaskObject>();
+				connection.Update(task);
+			}
+			base.OnClosing(e);
 		}
 
 	}
