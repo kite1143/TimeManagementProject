@@ -1,0 +1,13 @@
+﻿<Window x:Class="BTL_CNPM.View.UpdateDeleteLabelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Update / Delete Label" Height="250" Width="300">
+    <Grid Background="LightBlue">
+        <StackPanel HorizontalAlignment="Center" Width="200" VerticalAlignment="Center">
+            <TextBox x:Name="textBoxId" IsReadOnly="True" Margin="0,0,0,10" Background="LightGray"/>
+            <TextBox x:Name="textBoxName" Margin="0,0,0,20" Background="LightGray"/>
+            <Button Content="UPDATE" Click="ButtonEdit_Click"/>
+            <Button Content="DELETE" Click="ButtonDelete_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

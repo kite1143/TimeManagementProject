@@ -1,0 +1,18 @@
+﻿<Window x:Class="BTL_CNPM.View.NewLabelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BTL_CNPM.View"
+        mc:Ignorable="d"
+        Title="NewLabelWindow" Height="250" Width="300">
+    <Grid Background="LightBlue">
+        <StackPanel HorizontalAlignment="Center" Width="200" VerticalAlignment="Center" >
+            <TextBox x:Name ="textBoxName" Margin="0,0,0,20" Background="White" >
+                
+            </TextBox>
+            <Button Content="CREATE" Click="Button_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

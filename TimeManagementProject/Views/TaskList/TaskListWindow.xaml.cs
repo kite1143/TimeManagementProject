@@ -19,10 +19,10 @@ namespace TimeManagementProject;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class TaskListWindow : Window
 {
     List<TaskObject> listTasks;
-    public MainWindow()
+    public TaskListWindow()
     {
         InitializeComponent();
 		this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -41,7 +41,8 @@ public partial class MainWindow : Window
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
         NewTaskWindow newTaskWindow = new NewTaskWindow();
-        newTaskWindow.ShowDialog();
+		newTaskWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+		newTaskWindow.ShowDialog();
         ReadDatabase();
     }
 
@@ -63,6 +64,7 @@ public partial class MainWindow : Window
 		}
         ReadDatabase();
 	}
+
 
 	private void taskListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	{
