@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using BTL_CNPM.Model;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,24 @@ namespace TimeManagementProject.Views
         public NewTaskWindow()
         {
             InitializeComponent();
+            labelComboBox.ItemsSource = ReadTodoLabelTable();
+            labelComboBox.SelectedIndex = 0;
+        }
 
+        private List<TodoLabel> ReadTodoLabelTable()
+        {
+            List<TodoLabel> listLabel = new List<TodoLabel>();
+            listLabel.Add(new TodoLabel()
+            {
+                Id = -1,
+                Name = "None"
+            });
+            using(SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+            {
+                connection.CreateTable<TodoLabel>();
+                listLabel.AddRange(connection.Table<TodoLabel>().ToList());
+            }
+            return listLabel;
         }
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -37,14 +55,15 @@ namespace TimeManagementProject.Views
 			}
 
 
-			TaskObject task = new TaskObject()
+            TaskObject task = new TaskObject()
             {
                 Title = titleTextBox.Text,
                 Description = descriptionTextBox.Text,
                 StartDate = startDatePicker.SelectedDate,
                 DueDate = dueDatePicker.SelectedDate,
                 isCompleted = false,
-                Timer = new TimeSpan(0,0,0)
+                Timer = new TimeSpan(0, 0, 0),
+                Label = labelComboBox.SelectedValue.ToString()
             };
 
             using(SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))

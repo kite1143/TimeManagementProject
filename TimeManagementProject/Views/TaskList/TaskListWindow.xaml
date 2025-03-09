@@ -20,7 +20,7 @@
         <ListView x:Name="taskListView" 
                       Margin="10" 
                       SelectionChanged="taskListView_SelectionChanged"
-                      Grid.Row="1">
+                      Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -54,6 +54,15 @@
                                        FontSize="24" 
                                        HorizontalAlignment="Left" 
                                        VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Label}"
+                                       Background="LightBlue"
+                                       Grid.Row="0"
+                                       Grid.Column="5"
+                                       Grid.ColumnSpan="2"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="17"
+                                       />
                             <TextBlock Margin="5,0,5,0" 
                                        Grid.Row="1" 
                                        Grid.Column="1" 

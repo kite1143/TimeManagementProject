@@ -24,6 +24,7 @@ namespace TimeManagementProject.Models
 		{
 			DueDate = System.DateTime.Now;
 			StartDate = System.DateTime.Now;
+			Label = "None";
 		}
 
 	}
