@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using BTL_CNPM.Model;
+using SQLite;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -23,28 +24,63 @@ namespace TimeManagementProject;
 public partial class TaskListWindow : Window
 {
     List<TaskObject> listTasks;
+	String filterLabel = "All";
     public TaskListWindow()
     {
         InitializeComponent();
 		this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        ReadDatabase();
+        ReadTaskDatabase();
+		ReadLabelDatabase();
     }
 
-    public void ReadDatabase()
+	public void ReadLabelDatabase()
+	{
+		List<String> labelList = new List<String>()
+		{
+			"All"
+		};
+		using(SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+		{
+			connection.CreateTable<TodoLabel>();
+			foreach(TodoLabel tl in connection.Table<TodoLabel>())
+			{
+				labelList.Add(tl.Name);
+			}
+		}
+
+		labelFilterComboBox.ItemsSource = labelList;
+		labelFilterComboBox.SelectedIndex = 0;
+	}
+
+
+    public void ReadTaskDatabase()
     {
-        using(SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
-        {
-            connection.CreateTable<TaskObject>();
-            listTasks = connection.Table<TaskObject>().Where(e => e.isCompleted == false).ToList();
-        }
-        taskListView.ItemsSource = listTasks;
+		if (filterLabel.Equals("All"))
+		{
+			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+			{
+				connection.CreateTable<TaskObject>();
+				listTasks = connection.Table<TaskObject>().Where(e => e.isCompleted == false).ToList();
+			}
+		} else
+		{
+			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+			{
+				connection.CreateTable<TaskObject>();
+				listTasks = connection.Table<TaskObject>()
+					.Where(e => e.isCompleted == false)
+					.Where(e => e.Label.Equals(filterLabel))
+					.ToList();
+			}
+		}
+		taskListView.ItemsSource = listTasks;
     }
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
         NewTaskWindow newTaskWindow = new NewTaskWindow();
 		newTaskWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		newTaskWindow.ShowDialog();
-        ReadDatabase();
+        ReadTaskDatabase();
     }
 
     public void CompletedTask(TaskObject task)
@@ -63,7 +99,7 @@ public partial class TaskListWindow : Window
 		{
             CompletedTask(checkedItem);
 		}
-        ReadDatabase();
+        ReadTaskDatabase();
 	}
 
 
@@ -80,7 +116,7 @@ public partial class TaskListWindow : Window
 		detailTaskWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		detailTaskWindow.ShowDialog();
 
-		ReadDatabase();
+		ReadTaskDatabase();
 	}
 
 	private void Button_Timer_Click(object sender, RoutedEventArgs e)
@@ -90,7 +126,13 @@ public partial class TaskListWindow : Window
 			TaskTimerWindow taskTimerWindow = new TaskTimerWindow(selectedItem);
 			taskTimerWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			taskTimerWindow.ShowDialog();
-			ReadDatabase();
+			ReadTaskDatabase();
 		}
+	}
+
+	private void labelFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		filterLabel = labelFilterComboBox.SelectedItem.ToString();
+		ReadTaskDatabase();
 	}
 }

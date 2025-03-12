@@ -22,15 +22,11 @@
                                     <ColumnDefinition Width="*"/>
                                     <!-- Label -->
                                     <ColumnDefinition Width="Auto"/>
-                                   
-                                </Grid.ColumnDefinitions>
 
-                               
+                                </Grid.ColumnDefinitions>
 
                                 <!-- Label text -->
                                 <TextBlock Text="{Binding}" Margin="10,0,10,0" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
-
-                                
                             </Grid>
                         </Border>
                     </DataTemplate>
