@@ -72,8 +72,8 @@ namespace TimeManagementProject.Views
 		{
             task.Title = titleTextBox.Text;
             task.Description = descriptionTextBox.Text;
-            task.StartDate = startDatePicker.SelectedDate;
-            task.DueDate = dueDatePicker.SelectedDate;
+            task.StartDate = (DateTime) startDatePicker.SelectedDate;
+            task.DueDate = (DateTime)dueDatePicker.SelectedDate;
 			task.Label = labelComboBox.SelectedValue.ToString();
 			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
 			{

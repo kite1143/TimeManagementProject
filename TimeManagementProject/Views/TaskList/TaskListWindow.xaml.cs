@@ -25,6 +25,7 @@ public partial class TaskListWindow : Window
 {
     List<TaskObject> listTasks;
 	String filterLabel = "All";
+	DateTime filterDate = DateTime.Now;
     public TaskListWindow()
     {
         InitializeComponent();
@@ -35,10 +36,12 @@ public partial class TaskListWindow : Window
 
 	public void ReadLabelDatabase()
 	{
+		
 		List<String> labelList = new List<String>()
 		{
 			"All"
 		};
+
 		using(SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
 		{
 			connection.CreateTable<TodoLabel>();
@@ -55,26 +58,59 @@ public partial class TaskListWindow : Window
 
     public void ReadTaskDatabase()
     {
-		if (filterLabel.Equals("All"))
+		bool isFilterByDate = (bool) filterByDateCheckbox.IsChecked;
+		if (!isFilterByDate)
 		{
-			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+			if (filterLabel.Equals("All"))
 			{
-				connection.CreateTable<TaskObject>();
-				listTasks = connection.Table<TaskObject>().Where(e => e.isCompleted == false).ToList();
+				using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+				{
+					connection.CreateTable<TaskObject>();
+					listTasks = connection.Table<TaskObject>().Where(e => e.isCompleted == false).ToList();
+				}
+			}
+			else
+			{
+				using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+				{
+					connection.CreateTable<TaskObject>();
+					listTasks = connection.Table<TaskObject>()
+						.Where(e => e.isCompleted == false)
+						.Where(e => e.Label.Equals(filterLabel))
+						.ToList();
+				}
 			}
 		} else
 		{
-			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+			DateTime startDate = filterDate.Date;
+			DateTime endDate = startDate.AddDays(1);
+
+			if (filterLabel.Equals("All"))
 			{
-				connection.CreateTable<TaskObject>();
-				listTasks = connection.Table<TaskObject>()
-					.Where(e => e.isCompleted == false)
-					.Where(e => e.Label.Equals(filterLabel))
-					.ToList();
+				using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+				{
+					connection.CreateTable<TaskObject>();
+					listTasks = connection.Table<TaskObject>()
+						.Where(e => e.isCompleted == false)
+						.Where(e => e.DueDate >= startDate && e.DueDate < endDate)
+						.ToList();
+				}
+			}
+			else
+			{
+				using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
+				{
+					connection.CreateTable<TaskObject>();
+					listTasks = connection.Table<TaskObject>()
+						.Where(e => e.isCompleted == false)
+						.Where(e => e.Label.Equals(filterLabel))
+						.Where(e => e.DueDate >= startDate && e.DueDate < endDate)
+						.ToList();
+				}
 			}
 		}
 		taskListView.ItemsSource = listTasks;
-    }
+	}
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
         NewTaskWindow newTaskWindow = new NewTaskWindow();
@@ -133,6 +169,17 @@ public partial class TaskListWindow : Window
 	private void labelFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	{
 		filterLabel = labelFilterComboBox.SelectedItem.ToString();
+		ReadTaskDatabase();
+	}
+
+	private void dateFilterCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+	{
+		filterDate = (DateTime) dateFilterCalendar.SelectedDate;
+		ReadTaskDatabase();
+	}
+
+	private void filterByDateCheckbox_Checked_And_UnChecked(object sender, RoutedEventArgs e)
+	{
 		ReadTaskDatabase();
 	}
 }

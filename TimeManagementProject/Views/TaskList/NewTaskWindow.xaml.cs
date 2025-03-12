@@ -59,8 +59,8 @@ namespace TimeManagementProject.Views
             {
                 Title = titleTextBox.Text,
                 Description = descriptionTextBox.Text,
-                StartDate = startDatePicker.SelectedDate,
-                DueDate = dueDatePicker.SelectedDate,
+                StartDate = (DateTime)startDatePicker.SelectedDate,
+                DueDate = (DateTime)dueDatePicker.SelectedDate,
                 isCompleted = false,
                 Timer = new TimeSpan(0, 0, 0),
                 Label = labelComboBox.SelectedValue.ToString()

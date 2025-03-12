@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementProject"
         mc:Ignorable="d"
-        Title="TaskListWindow" Height="500" Width="500" SizeToContent="Width">
+        Title="TaskListWindow" Height="500" Width="750" SizeToContent="Width">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,10 +14,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <ComboBox x:Name="labelFilterComboBox"
-                  Margin="10"
-                  Text="Hello Wolrd"
+                  Margin="10, 10, 60, 10"
                   SelectionChanged="labelFilterComboBox_SelectionChanged"
                   />
         <Button Content="Add Task" 
@@ -29,11 +29,12 @@
                 Grid.Column="1"
                 Grid.Row="0"/>
         <ListView x:Name="taskListView" 
-                      Margin="10" 
-                      SelectionChanged="taskListView_SelectionChanged"
-                      Grid.Row="1"
-                      Grid.ColumnSpan="2"
-                      d:ItemsSource="{d:SampleData ItemCount=5}">
+                  MinWidth="500"
+                  Margin="10" 
+                  SelectionChanged="taskListView_SelectionChanged"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="2"
+                  d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -138,5 +139,18 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <CheckBox x:Name="filterByDateCheckbox"
+                  Content="Filter By Due Date"
+                  Grid.Column="2"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Right"
+                  Margin="10"
+                  Checked="filterByDateCheckbox_Checked_And_UnChecked"
+                  Unchecked="filterByDateCheckbox_Checked_And_UnChecked"/>
+        <Calendar x:Name="dateFilterCalendar"
+                  Grid.Column="2"
+                  Grid.Row="1"
+                  Margin="10"
+                  SelectedDatesChanged="dateFilterCalendar_SelectedDatesChanged"/>
     </Grid>
 </Window>
