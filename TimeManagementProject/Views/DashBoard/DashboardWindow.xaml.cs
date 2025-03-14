@@ -51,13 +51,14 @@ namespace TimeManagementProject.Views.DashBoard
 
 		private void monthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-
-            this.DataContext = new PieChartVM(int.Parse(yearComboBox.SelectedItem.ToString()), int.Parse(monthComboBox.SelectedItem.ToString()));
+            if(yearComboBox.SelectedItem != null && monthComboBox.SelectedItem != null)
+                this.DataContext = new PieChartVM(int.Parse(yearComboBox.SelectedItem.ToString()), int.Parse(monthComboBox.SelectedItem.ToString()));
 		}
 
 		private void yearComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-
+			if (yearComboBox.SelectedItem != null && monthComboBox.SelectedItem != null)
+				this.DataContext = new PieChartVM(int.Parse(yearComboBox.SelectedItem.ToString()), int.Parse(monthComboBox.SelectedItem.ToString()));
 		}
 	}
 }
