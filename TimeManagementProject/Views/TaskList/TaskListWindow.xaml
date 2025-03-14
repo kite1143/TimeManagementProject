@@ -151,6 +151,7 @@
                   Grid.Column="2"
                   Grid.Row="1"
                   Margin="10"
+                  DisplayMode="Year"
                   SelectedDatesChanged="dateFilterCalendar_SelectedDatesChanged"/>
     </Grid>
 </Window>
