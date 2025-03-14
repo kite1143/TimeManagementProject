@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TimeManagementProject.ViewModel.Helpers;
+using TimeManagementProject.Views.LabelList;
 
 namespace BTL_CNPM
 {
@@ -21,7 +22,7 @@ namespace BTL_CNPM
 		public LabelListWindow()
 		{
 			InitializeComponent();
-			ReadDataBase(); // Gọi hàm lấy dữ liệu từ SQLite
+			ReadDataBase(); 
 		}
 
 		private void ReadDataBase()
@@ -29,7 +30,7 @@ namespace BTL_CNPM
 			using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
 			{
 				conn.CreateTable<TodoLabel>();
-				List<TodoLabel> listTodoLabel = conn.Table<TodoLabel>().ToList();
+				List<TodoLabel> listTodoLabel = conn.Table<TodoLabel>().OrderBy(t => t.Id).ToList();
 				Dispatcher.Invoke(() =>
 				{
 					listBoxLabels.ItemsSource = null;
@@ -52,10 +53,28 @@ namespace BTL_CNPM
 			{
 				UpdateDeleteLabelWindow updateDeleteWindow = new UpdateDeleteLabelWindow(selectedLabel);
 				updateDeleteWindow.ShowDialog();
-				ReadDataBase(); // Cập nhật lại danh sách sau khi sửa/xóa
+				ReadDataBase(); 
 			}
 		}
+		private void FavouriteButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is Button button && button.Tag is TodoLabel label)
+			{
+				label.IsFavorite = !label.IsFavorite; 
 
-		
+				using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
+				{
+					conn.Update(label); 
+				}
+
+				ReadDataBase(); 
+			}
+		}
+		private void OpenFavourites_Click(object sender, RoutedEventArgs e)
+		{
+			FavouriteWindow favouriteWindow = new FavouriteWindow();
+			favouriteWindow.ShowDialog();
+		}
+
 	}
 }

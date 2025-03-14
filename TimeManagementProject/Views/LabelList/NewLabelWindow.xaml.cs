@@ -17,28 +17,46 @@ using TimeManagementProject.ViewModel.Helpers;
 
 namespace BTL_CNPM.View
 {
-    /// <summary>
-    /// Interaction logic for NewLabelWindow.xaml
-    /// </summary>
-    public partial class NewLabelWindow : Window
-    {
-        public NewLabelWindow()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for NewLabelWindow.xaml
+	/// </summary>
+	public partial class NewLabelWindow : Window
+	{
+		public NewLabelWindow()
+		{
+			InitializeComponent();
+		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-            TodoLabel label = new TodoLabel()
-            {
-                Name = textBoxName.Text,
-            };
-            using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
-            {
-                conn.CreateTable<TodoLabel>();
-                conn.Insert(label);
-            }  
-            this.Close();
+			using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
+			{
+				conn.CreateTable<TodoLabel>();
+
+				// Lấy danh sách ID hiện tại và sắp xếp
+				List<int> existingIds = conn.Table<TodoLabel>()
+											.Select(t => t.Id)
+											.OrderBy(id => id)
+											.ToList();
+
+				int newId = 1;
+				foreach (int id in existingIds)
+				{
+					if (id == newId)
+						newId++;
+					else
+						break; // Dừng lại khi tìm thấy số trống
+				}
+
+				TodoLabel label = new TodoLabel()
+				{
+					Id = newId,
+					Name = textBoxName.Text,
+				};
+
+				conn.Insert(label);
+			}
+			this.Close();
 		}
 	}
 }

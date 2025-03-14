@@ -9,12 +9,13 @@ namespace BTL_CNPM.Model
 {
     public class TodoLabel
     {
-		[PrimaryKey, AutoIncrement]
+		[PrimaryKey]
 		public int Id { get; set; }
 		public string Name { get; set; }
+		public bool IsFavorite { get; set; }
 		public override string ToString()
 		{
-			return Name;
+			return Id + ". Name: "+ Name ;
 		}
 	}
 }
