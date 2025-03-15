@@ -17,7 +17,7 @@ using TimeManagementProject.Views.LabelList;
 namespace BTL_CNPM
 {
 
-	public partial class LabelListWindow : Window
+	public partial class LabelListWindow : Page
 	{
 		public LabelListWindow()
 		{
@@ -72,8 +72,8 @@ namespace BTL_CNPM
 		}
 		private void OpenFavourites_Click(object sender, RoutedEventArgs e)
 		{
-			FavouriteWindow favouriteWindow = new FavouriteWindow();
-			favouriteWindow.ShowDialog();
+			//FavouriteWindow favouriteWindow = new FavouriteWindow();
+			//favouriteWindow.ShowDialog();
 		}
 
 	}

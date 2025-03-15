@@ -20,13 +20,12 @@ namespace TimeManagementProject.Views
     /// <summary>
     /// Interaction logic for CompletedTaskWindow.xaml
     /// </summary>
-    public partial class CompletedTaskWindow : Window
+    public partial class CompletedTaskWindow : Page
     {
 		List<TaskObject> listTasks;
 		public CompletedTaskWindow()
         {
 			InitializeComponent();
-			this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			ReadDatabase();
 		}
 

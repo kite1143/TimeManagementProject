@@ -21,7 +21,7 @@ namespace TimeManagementProject;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class TaskListWindow : Window
+public partial class TaskListWindow : Page
 {
     List<TaskObject> listTasks;
 	String filterLabel = "All";
@@ -29,7 +29,6 @@ public partial class TaskListWindow : Window
     public TaskListWindow()
     {
         InitializeComponent();
-		this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         ReadTaskDatabase();
 		ReadLabelDatabase();
     }

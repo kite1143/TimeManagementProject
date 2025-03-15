@@ -1,12 +1,12 @@
-﻿<Window x:Class="TimeManagementProject.Views.LabelList.FavouriteWindow"
+﻿<Page x:Class="TimeManagementProject.Views.LabelList.FavouriteWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementProject.Views.LabelList"
         mc:Ignorable="d"
-        Title="FavouriteWindow" Height="450" Width="800">
+        Title="FavouriteWindow" Height="Auto" Width="Auto">
     <Grid>
-        <ListBox x:Name="FavouriteListBox" Margin="10"/>
+        <ListBox x:Name="FavouriteListBox" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}"/>
     </Grid>
-</Window>
+</Page>

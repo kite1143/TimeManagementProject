@@ -20,7 +20,7 @@ namespace TimeManagementProject.Views.LabelList
     /// <summary>
     /// Interaction logic for FavouriteWindow.xaml
     /// </summary>
-    public partial class FavouriteWindow : Window
+    public partial class FavouriteWindow : Page
     {
         public FavouriteWindow()
         {

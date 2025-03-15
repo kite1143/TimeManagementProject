@@ -18,7 +18,7 @@ namespace TimeManagementProject.Views.DashBoard
     /// <summary>
     /// Interaction logic for DashboardView.xaml
     /// </summary>
-    public partial class DashboardView : Window
+    public partial class DashboardView : Page
     {
         public DashboardView()
         {
