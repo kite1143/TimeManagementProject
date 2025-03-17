@@ -24,17 +24,19 @@ namespace TimeManagementProject.Views
     /// <summary>
     /// Interaction logic for TaskTimerWindow.xaml
     /// </summary>
-    public partial class TaskTimerWindow : Window
+    public partial class TaskTimerWindow : Page
     {
         TaskObject task;
         TimerDisplayVM timerDisplayVM;
 		bool isStarted { get; set; }
 		TimeSpan second = new TimeSpan(0, 0, 1);
+		Page mainWindow;
 		
-		public TaskTimerWindow(TaskObject selectedTask)
+		public TaskTimerWindow(TaskObject selectedTask, Page mainWindow)
         {
             InitializeComponent();
-            isStarted = false;
+			this.mainWindow = mainWindow;
+			isStarted = false;
             task = selectedTask;
             mainGrid.DataContext = task;
             timerDisplayVM = new TimerDisplayVM(task.Timer.ToString());
@@ -44,11 +46,6 @@ namespace TimeManagementProject.Views
 			aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 			aTimer.Interval = 1000; // ~ 1 seconds
 			aTimer.Enabled = true;
-		}
-
-		private void Button_Back_Click(object sender, RoutedEventArgs e)
-		{
-            this.Close();
 		}
 
 		private void Button_Start_Click(object sender, RoutedEventArgs e)
@@ -65,6 +62,7 @@ namespace TimeManagementProject.Views
                 connection.CreateTable<TaskObject>();
                 connection.Update(task);
             }
+			(this.mainWindow as TaskListWindow).ReadTaskDatabase();
         }
 
 		private void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -76,16 +74,6 @@ namespace TimeManagementProject.Views
 
 			task.Timer += second;
 			timerDisplayVM.TimerString = task.Timer.ToString();
-		}
-
-		protected override void OnClosing(CancelEventArgs e)
-		{
-			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
-			{
-				connection.CreateTable<TaskObject>();
-				connection.Update(task);
-			}
-			base.OnClosing(e);
 		}
 
 	}

@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:TimeManagementProject.Models"
         xmlns:local="clr-namespace:TimeManagementProject.Views"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         Title="CompletedTaskWindow">
     <Grid>
@@ -11,11 +13,11 @@
                   Margin="10" 
                   SelectionChanged="taskListView_SelectionChanged"
                   Grid.Row="0" 
-                  Grid.Column="0" 
+                  Grid.Column="0"
                   d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
+                    <StackPanel Width="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -32,69 +34,69 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <CheckBox Margin="5" 
-                                  HorizontalAlignment="Center" 
-                                  VerticalAlignment="Center" 
-                                  Grid.Row="0" 
-                                  Grid.Column="0" 
-                                  IsChecked="{Binding isCompleted}"
-                                  Unchecked="CheckBox_UnChecked"/>
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" 
+                                          Grid.Row="0" 
+                                          Grid.Column="0" 
+                                          IsChecked="{Binding isCompleted}"
+                                          Unchecked="CheckBox_UnChecked"/>
                             <TextBlock Margin="5" 
-                                   Grid.Row="0" 
-                                   Grid.Column="1" 
-                                   Grid.ColumnSpan="4" 
-                                   Text="{Binding Title}" 
-                                   FontSize="24"
-                                   TextDecorations="Strikethrough"
-                                   HorizontalAlignment="Left" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="0" 
+                                           Grid.Column="1" 
+                                           Grid.ColumnSpan="4" 
+                                           Text="{Binding Title}" 
+                                           FontSize="24"
+                                           TextDecorations="Strikethrough"
+                                           HorizontalAlignment="Left" 
+                                           VerticalAlignment="Center"/>
                             <TextBlock Margin="5,0,5,0" 
-                                   Grid.Row="1" 
-                                   Grid.Column="1" 
-                                   Grid.ColumnSpan="1" 
-                                   Text="Time Spend:" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Right" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="1" 
+                                           Grid.Column="1" 
+                                           Grid.ColumnSpan="1" 
+                                           Text="Time Spend:" 
+                                           FontSize="13" 
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Center"/>
                             <TextBlock Margin="5,0,5,0" 
-                                   Grid.Row="1" 
-                                   Grid.Column="2" 
-                                   Grid.ColumnSpan="1" 
-                                   Text="{Binding Timer}" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="1" 
+                                           Grid.Column="2" 
+                                           Grid.ColumnSpan="1" 
+                                           Text="{Binding Timer}" 
+                                           FontSize="13" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
                             <TextBlock Margin="5,0,5,0" 
-                                   Grid.Row="1" 
-                                   Grid.Column="3" 
-                                   Grid.ColumnSpan="1" 
-                                   Text="Start date:" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Right" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="1" 
+                                           Grid.Column="3" 
+                                           Grid.ColumnSpan="1" 
+                                           Text="Start date:" 
+                                           FontSize="13" 
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Center"/>
                             <TextBlock Margin="5,0,5,0" 
-                                   Grid.Row="1" 
-                                   Grid.Column="4" 
-                                   Grid.ColumnSpan="1" 
-                                   Text="{Binding StartDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="1" 
+                                           Grid.Column="4" 
+                                           Grid.ColumnSpan="1" 
+                                           Text="{Binding StartDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
+                                           FontSize="13" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
                             <TextBlock Margin="5,0,0,0" 
-                                   Grid.Row="1" 
-                                   Grid.Column="5" 
-                                   Grid.ColumnSpan="1" 
-                                   Text="Due date:" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Right" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="1" 
+                                           Grid.Column="5" 
+                                           Grid.ColumnSpan="1" 
+                                           Text="Due date:" 
+                                           FontSize="13" 
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Center"/>
                             <TextBlock Margin="5,0,5,0" 
-                                   Grid.Row="1" 
-                                   Grid.Column="6" 
-                                   Grid.ColumnSpan="1" 
-                                   Text="{Binding DueDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
-                                   FontSize="13" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
+                                           Grid.Row="1" 
+                                           Grid.Column="6" 
+                                           Grid.ColumnSpan="1" 
+                                           Text="{Binding DueDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
+                                           FontSize="13" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
                         </Grid>
                     </StackPanel>
                 </DataTemplate>

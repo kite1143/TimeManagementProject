@@ -15,7 +15,7 @@ namespace BTL_CNPM.Model
 		public bool IsFavorite { get; set; }
 		public override string ToString()
 		{
-			return Id + ". Name: "+ Name ;
+			return Name ;
 		}
 	}
 }

@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Segoe Fluent Icons.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Assets\Files\Txt\" />
     <Folder Include="Assets\Images\" />
     <Folder Include="Assets\Files\Data\" />
@@ -18,6 +22,11 @@
   <ItemGroup>
     <PackageReference Include="OxyPlot.Wpf" Version="2.2.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <PackageReference Include="WPF-UI" Version="4.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\Segoe Fluent Icons.ttf" />
   </ItemGroup>
 
 </Project>

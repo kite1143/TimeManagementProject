@@ -29,7 +29,8 @@ public partial class TaskListWindow : Page
     public TaskListWindow()
     {
         InitializeComponent();
-        ReadTaskDatabase();
+		timerNavframe.Navigate(new Uri("pack://application:,,,/Views/DefaultPage/InitTimerNavPage.xaml", UriKind.Absolute));
+		ReadTaskDatabase();
 		ReadLabelDatabase();
     }
 
@@ -158,10 +159,8 @@ public partial class TaskListWindow : Page
 	{
 		if (sender is Button timerBtn && timerBtn.DataContext is TaskObject selectedItem)
 		{
-			TaskTimerWindow taskTimerWindow = new TaskTimerWindow(selectedItem);
-			taskTimerWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			taskTimerWindow.ShowDialog();
-			ReadTaskDatabase();
+			TaskTimerWindow taskTimerWindow = new TaskTimerWindow(selectedItem, this);
+			timerNavframe.Navigate(taskTimerWindow);
 		}
 	}
 
