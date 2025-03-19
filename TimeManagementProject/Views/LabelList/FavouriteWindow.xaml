@@ -4,9 +4,147 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementProject.Views.LabelList"
+        xmlns:models="clr-namespace:TimeManagementProject.Models"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
-        Title="FavouriteWindow" Height="Auto" Width="Auto">
+        Title="FavouriteWindow">
+    <Page.Resources>
+        <Style x:Key="NoHoverTreeViewItemStyle" TargetType="TreeViewItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </Page.Resources>
     <Grid>
-        <ListBox x:Name="FavouriteListBox" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <TreeView x:Name="favTaskTreeView" 
+                  d:ItemsSource="{d:SampleData ItemCount=2}"
+                  Margin="10">
+            <TreeView.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:FavoriteTreeItemVm}">
+                    <TreeViewItem Header="{Binding todoLabel.Name}"
+                                  IsExpanded="True"
+                                  FontFamily="Arial Black"
+                                  Width="Auto"
+                                  Style="{StaticResource NoHoverTreeViewItemStyle}">
+                        <ui:ListView  x:Name="taskListView" 
+                                      MinWidth="500"
+                                      Margin="10" 
+                                      Grid.Row="1"
+                                      FontFamily="Arial"
+                                      Grid.ColumnSpan="2"
+                                      ItemsSource="{Binding listTask}"
+                                      d:ItemsSource="{d:SampleData ItemCount=3}">
+                            <ui:ListView.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:TaskObject}">
+                                    <Border Background="AliceBlue"
+                                            CornerRadius="5"
+                                            BorderBrush="Black"
+                                            BorderThickness="1"
+                                            Padding="5">
+                                        <StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <CheckBox Margin="5" 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center" 
+                                                            Grid.Row="0" 
+                                                            Grid.Column="0" 
+                                                            IsChecked="{Binding isCompleted}" 
+                                                            Checked="CheckBox_Checked"/>
+                                                <TextBlock Margin="5" 
+                                                            Grid.Row="0" 
+                                                            Grid.Column="1" 
+                                                            Grid.ColumnSpan="4" 
+                                                            Text="{Binding Title}" 
+                                                            FontSize="24" 
+                                                            HorizontalAlignment="Left" 
+                                                            VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Label}"
+                                                            Background="LightBlue"
+                                                            Grid.Row="0"
+                                                            Grid.Column="5"
+                                                            Grid.ColumnSpan="2"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="17"
+                                                            />
+                                                <TextBlock Margin="5,0,5,0" 
+                                                            Grid.Row="1" 
+                                                            Grid.Column="1" 
+                                                            Grid.ColumnSpan="1" 
+                                                            Text="Time Spend:" 
+                                                            FontSize="13" 
+                                                            HorizontalAlignment="Right" 
+                                                            VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,5,0" 
+                                                            Grid.Row="1" 
+                                                            Grid.Column="2" 
+                                                            Grid.ColumnSpan="1" 
+                                                            Text="{Binding Timer}" 
+                                                            FontSize="13" 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,5,0" 
+                                                            Grid.Row="1" 
+                                                            Grid.Column="3" 
+                                                            Grid.ColumnSpan="1" 
+                                                            Text="Start date:" 
+                                                            FontSize="13" 
+                                                            HorizontalAlignment="Right" 
+                                                            VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,5,0" 
+                                                            Grid.Row="1" 
+                                                            Grid.Column="4" 
+                                                            Grid.ColumnSpan="1" 
+                                                            Text="{Binding StartDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
+                                                            FontSize="13" 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                                <TextBlock Margin="5,0,0,0" 
+                                                            Grid.Row="1" 
+                                                            Grid.Column="5" 
+                                                            Grid.ColumnSpan="1" 
+                                                            Text="Due date:" 
+                                                            FontSize="13" 
+                                                            HorizontalAlignment="Right" 
+                                                            VerticalAlignment="Center"/>
+                                                <TextBlock  Margin="5,0,5,0" 
+                                                            Grid.Row="1" 
+                                                            Grid.Column="6" 
+                                                            Grid.ColumnSpan="1" 
+                                                            Text="{Binding DueDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
+                                                            FontSize="13" 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ui:ListView.ItemTemplate>
+                        </ui:ListView>
+                    </TreeViewItem>
+                </DataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </Page>

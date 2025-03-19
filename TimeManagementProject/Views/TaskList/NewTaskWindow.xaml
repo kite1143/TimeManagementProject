@@ -89,6 +89,7 @@
                       Margin="10"/>
         </Grid>
         <ui:Button Grid.Row="2" 
+                   Grid.ColumnSpan="2"
                    Content="Create" 
                    FontWeight="Bold"
                    Width="200" 

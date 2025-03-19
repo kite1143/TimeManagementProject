@@ -1,5 +1,4 @@
-﻿using BTL_CNPM.Model;
-using SQLite;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TimeManagementProject.Models;
 using TimeManagementProject.ViewModel.Helpers;
 
 namespace BTL_CNPM.View
@@ -22,9 +22,11 @@ namespace BTL_CNPM.View
 	/// </summary>
 	public partial class NewLabelWindow : Window
 	{
-		public NewLabelWindow()
+		Page main;
+		public NewLabelWindow(Page main)
 		{
 			InitializeComponent();
+			this.main = main;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -32,30 +34,25 @@ namespace BTL_CNPM.View
 			using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
 			{
 				conn.CreateTable<TodoLabel>();
-
-				// Lấy danh sách ID hiện tại và sắp xếp
-				List<int> existingIds = conn.Table<TodoLabel>()
-											.Select(t => t.Id)
-											.OrderBy(id => id)
-											.ToList();
-
-				int newId = 1;
-				foreach (int id in existingIds)
+				List<TodoLabel> listLabel = conn.Table<TodoLabel>().ToList();
+				foreach(var todolabel in listLabel)
 				{
-					if (id == newId)
-						newId++;
-					else
-						break; // Dừng lại khi tìm thấy số trống
+					if (todolabel.Name.Equals(textBoxName.Text))
+					{
+						MessageBox.Show("This name is already exist", "Warning", MessageBoxButton.OK);
+						return;
+					}
 				}
-
+				
 				TodoLabel label = new TodoLabel()
 				{
-					Id = newId,
 					Name = textBoxName.Text,
 				};
 
 				conn.Insert(label);
 			}
+
+			(main as LabelListWindow).DisplaySuccess();
 			this.Close();
 		}
 	}

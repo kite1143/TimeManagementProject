@@ -1,5 +1,4 @@
-﻿using BTL_CNPM.Model;
-using SQLite;
+﻿using SQLite;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -15,6 +14,8 @@ using System.Windows.Shapes;
 using TimeManagementProject.Models;
 using TimeManagementProject.ViewModel.Helpers;
 using TimeManagementProject.Views;
+using TimeManagementProject.Views.Notification;
+using Wpf.Ui.Controls;
 
 namespace TimeManagementProject;
 
@@ -26,9 +27,14 @@ public partial class TaskListWindow : Page
     List<TaskObject> listTasks;
 	String filterLabel = "All";
 	DateTime filterDate = DateTime.Now;
+	MainWindow mainWindow;
     public TaskListWindow()
     {
         InitializeComponent();
+		if (Application.Current.Properties.Contains("MainWindowInstance"))
+		{
+			mainWindow = Application.Current.Properties["MainWindowInstance"] as MainWindow;
+		}
 		timerNavframe.Navigate(new Uri("pack://application:,,,/Views/DefaultPage/InitTimerNavPage.xaml", UriKind.Absolute));
 		ReadTaskDatabase();
 		ReadLabelDatabase();
@@ -111,9 +117,19 @@ public partial class TaskListWindow : Page
 		}
 		taskListView.ItemsSource = listTasks;
 	}
+
+
+	public void DisplaySuccess(String message)
+	{
+		if(mainWindow != null)
+		{
+			mainWindow.DisplaySuccess(message);
+		}
+	}
+
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-        NewTaskWindow newTaskWindow = new NewTaskWindow();
+        NewTaskWindow newTaskWindow = new NewTaskWindow(this);
 		newTaskWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 		newTaskWindow.ShowDialog();
         ReadTaskDatabase();
@@ -127,6 +143,7 @@ public partial class TaskListWindow : Page
 			connection.CreateTable<TaskObject>();
             connection.Update(task);
 		}
+		
 	}
 
 	private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -135,6 +152,7 @@ public partial class TaskListWindow : Page
 		{
             CompletedTask(checkedItem);
 		}
+		DisplaySuccess("Task completed");
         ReadTaskDatabase();
 	}
 
@@ -157,7 +175,7 @@ public partial class TaskListWindow : Page
 
 	private void Button_Timer_Click(object sender, RoutedEventArgs e)
 	{
-		if (sender is Button timerBtn && timerBtn.DataContext is TaskObject selectedItem)
+		if (sender is Wpf.Ui.Controls.Button timerBtn && timerBtn.DataContext is TaskObject selectedItem)
 		{
 			TaskTimerWindow taskTimerWindow = new TaskTimerWindow(selectedItem, this);
 			timerNavframe.Navigate(taskTimerWindow);

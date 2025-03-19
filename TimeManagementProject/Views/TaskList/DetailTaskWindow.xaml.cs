@@ -1,5 +1,4 @@
-﻿using BTL_CNPM.Model;
-using SQLite;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -70,7 +69,13 @@ namespace TimeManagementProject.Views
 		}
 		private void Button_Update_Click(object sender, RoutedEventArgs e)
 		{
-            task.Title = titleTextBox.Text;
+		 	MessageBoxResult mbr = MessageBox.Show("Are you sure to update this task?", "Update Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if(mbr == MessageBoxResult.No)
+			{
+				return;
+			}
+
+			task.Title = titleTextBox.Text;
             task.Description = descriptionTextBox.Text;
             task.StartDate = (DateTime) startDatePicker.SelectedDate;
             task.DueDate = (DateTime)dueDatePicker.SelectedDate;
@@ -84,6 +89,12 @@ namespace TimeManagementProject.Views
 		}
 		private void Button_Delete_Click(object sender, RoutedEventArgs e)
 		{
+			MessageBoxResult mbr = MessageBox.Show("Are you sure to delete this task?", "Delete Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (mbr == MessageBoxResult.No)
+			{
+				return;
+			}
+
 			using (SQLiteConnection connection = new SQLiteConnection(DatabaseVM.databasePath))
 			{
 				connection.CreateTable<TaskObject>();

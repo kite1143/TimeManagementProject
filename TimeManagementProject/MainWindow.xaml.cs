@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TimeManagementProject.Views.Notification;
 
 namespace TimeManagementProject
 {
@@ -22,7 +23,8 @@ namespace TimeManagementProject
         public MainWindow()
         {
             InitializeComponent();
-            navframe.Navigate((sidebar.Items[1] as NavButton).Navlink);
+			Application.Current.Properties["MainWindowInstance"] = this;
+			navframe.Navigate((sidebar.Items[1] as NavButton).Navlink);
 		}
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -31,8 +33,24 @@ namespace TimeManagementProject
             var selected = sidebar.SelectedItem as NavButton;
 
             navframe.Navigate(selected.Navlink);
-
         }
-    }
+		private SolidColorBrush HextoSolidBrush(string Hex)
+		{
+			return new SolidColorBrush((Color)ColorConverter.ConvertFromString(Hex));
+		}
+
+		public void DisplaySuccess(String message)
+		{
+			Notification success = new Notification(
+				  "Success",
+				  message,
+				  "/Assets/Resources/success_icon.png",
+				  (LinearGradientBrush)this.Resources["GreenGradient"],
+				  HextoSolidBrush("#36AE3B")
+				  );
+			success.Show();
+		}
+
+	}
 }
   

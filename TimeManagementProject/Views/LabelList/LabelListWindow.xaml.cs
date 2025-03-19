@@ -1,5 +1,4 @@
-﻿using BTL_CNPM.Model;
-using BTL_CNPM.View;
+﻿using BTL_CNPM.View;
 using SQLite;
 using System.Text;
 using System.Windows;
@@ -11,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TimeManagementProject;
+using TimeManagementProject.Models;
 using TimeManagementProject.ViewModel.Helpers;
 using TimeManagementProject.Views.LabelList;
 
@@ -19,12 +20,23 @@ namespace BTL_CNPM
 
 	public partial class LabelListWindow : Page
 	{
+		MainWindow mainWindow;
 		public LabelListWindow()
 		{
 			InitializeComponent();
+			if (Application.Current.Properties.Contains("MainWindowInstance"))
+			{
+				mainWindow = Application.Current.Properties["MainWindowInstance"] as MainWindow;
+			}
 			ReadDataBase(); 
 		}
-
+		public void DisplaySuccess()
+		{
+			if (mainWindow != null)
+			{
+				mainWindow.DisplaySuccess("Your label is created successfully");
+			}
+		}
 		private void ReadDataBase()
 		{
 			using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
@@ -42,7 +54,8 @@ namespace BTL_CNPM
 		
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			NewLabelWindow newLabelWindow = new NewLabelWindow();
+			NewLabelWindow newLabelWindow = new NewLabelWindow(this);
+			newLabelWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			newLabelWindow.ShowDialog();
 			ReadDataBase();
 		}
@@ -52,6 +65,7 @@ namespace BTL_CNPM
 			if (listBoxLabels.SelectedItem is TodoLabel selectedLabel)
 			{
 				UpdateDeleteLabelWindow updateDeleteWindow = new UpdateDeleteLabelWindow(selectedLabel);
+				updateDeleteWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 				updateDeleteWindow.ShowDialog();
 				ReadDataBase(); 
 			}
@@ -70,11 +84,5 @@ namespace BTL_CNPM
 				ReadDataBase(); 
 			}
 		}
-		private void OpenFavourites_Click(object sender, RoutedEventArgs e)
-		{
-			//FavouriteWindow favouriteWindow = new FavouriteWindow();
-			//favouriteWindow.ShowDialog();
-		}
-
 	}
 }

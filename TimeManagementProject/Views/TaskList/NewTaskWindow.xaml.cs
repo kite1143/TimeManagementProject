@@ -1,5 +1,4 @@
-﻿using BTL_CNPM.Model;
-using SQLite;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TimeManagementProject.Models;
 using TimeManagementProject.ViewModel.Helpers;
+using Wpf.Ui.Controls;
 
 namespace TimeManagementProject.Views
 {
@@ -23,9 +23,14 @@ namespace TimeManagementProject.Views
     /// </summary>
     public partial class NewTaskWindow : Window
     {
-        public NewTaskWindow()
+        Page main;
+        public NewTaskWindow(Page main)
         {
             InitializeComponent();
+            startDatePicker.SelectedDate = DateTime.Now;
+            dueDatePicker.SelectedDate = DateTime.Now;
+
+			this.main = main;
             labelComboBox.ItemsSource = ReadTodoLabelTable();
             labelComboBox.SelectedIndex = 0;
         }
@@ -50,7 +55,7 @@ namespace TimeManagementProject.Views
 		{
             if (String.IsNullOrWhiteSpace(titleTextBox.Text)) 
             {
-                MessageBox.Show("Please enter title for this task");
+                System.Windows.MessageBox.Show("Please enter title for this task");
                 return;
 			}
 
@@ -72,7 +77,9 @@ namespace TimeManagementProject.Views
                 connection.Insert(task);
             }
 
-            this.Close();
+            (main as TaskListWindow).DisplaySuccess("Your task is created successfully");
+
+			this.Close();
 		}
 	}
 }

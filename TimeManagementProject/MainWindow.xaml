@@ -5,7 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementProject"
         mc:Ignorable="d"
-        Title="MainWindow" SnapsToDevicePixels="True" Height="780" Width="1020">
+        Title="MainWindow" 
+        SnapsToDevicePixels="True" 
+        WindowStartupLocation="CenterScreen"
+        Height="780" 
+        Width="1020">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="RedGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="#602D30" />
+            <GradientStop Offset="0.4" Color="#20232E" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="GreenGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="1" Color="#1D4F28"/>
+            <GradientStop Offset="0.5" Color="#2E7D32"/>
+            <GradientStop Offset="0" Color="#4CAF50"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="YellowGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="#5D4E1E" />
+            <GradientStop Offset="0.4" Color="#20232E" />
+        </LinearGradientBrush>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>

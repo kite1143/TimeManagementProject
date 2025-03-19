@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BTL_CNPM.Model
+namespace TimeManagementProject.Models
 {
     public class TodoLabel
     {
-		[PrimaryKey]
+		[PrimaryKey,AutoIncrement]
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public bool IsFavorite { get; set; }
 		public override string ToString()
 		{
-			return Name ;
+			return Name;
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace TimeManagementProject.Models
 {
@@ -12,13 +13,16 @@ namespace TimeManagementProject.Models
     {
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return (bool)value ? "❤" : "♡";
+			if (value is bool isFavorite)
+			{
+				return isFavorite ? Brushes.Red : Brushes.Black;
+			}
+			return Brushes.Black;
 		}
 
-		// Chuyển đổi ngược lại nếu cần (ở đây không cần dùng)
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return value.ToString() == "❤";
+			throw new NotImplementedException();
 		}
 	}
 }

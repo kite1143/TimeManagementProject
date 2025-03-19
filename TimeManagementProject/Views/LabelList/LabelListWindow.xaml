@@ -4,90 +4,67 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeManagementProject.Models"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         Title="MainWindow">
     <Page.Resources>
         <local:FavouriteIconConverts x:Key="FavouriteIconConverts"/>
-
-        <Style x:Key="SmallButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="LightGray"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <ScaleTransform ScaleX="1" ScaleY="1"/>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <!-- Hover Effect -->
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF90CAF9"/>
-                    <Setter Property="Cursor" Value="Hand"/>
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-
-                <!-- Click Effect -->
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
     </Page.Resources>
     <Grid>
         <StackPanel>
-            <Button Content="ADD"
-                    Click="Button_Click" 
-                    Style="{StaticResource SmallButtonStyle}" 
-                    HorizontalAlignment="Right"
-                    Margin="10"/>
-            <ListBox Margin="0" 
+            <ui:Button  Content="Add Label"
+                        Click="Button_Click" 
+                        FontFamily="Arial"
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Margin="0,20,20,20" 
+                        FontSize="20"
+                        Icon="{ui:SymbolIcon Symbol=AddCircle12}"/>
+            <ui:ListView Margin="0" 
                      x:Name="listBoxLabels" 
                      MouseDoubleClick="listBoxLabels_MouseDoubleClick" 
                      d:ItemsSource="{d:SampleData ItemCount=5}">
-                <ListBox.ItemTemplate>
+                <ui:ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" 
-                                BorderBrush="LightGray" 
-                                Padding="5" 
-                                Margin="5" 
-                                CornerRadius="5">
+                        <Border Background="AliceBlue"
+                            CornerRadius="5"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Padding="5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <!-- Icon -->
                                     <ColumnDefinition Width="*"/>
                                     <!-- Label -->
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Label text -->
-                                <TextBlock Text="{Binding}" Margin="10,0,10,0" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
-
-                                <Button Grid.Column="2" 
-                                    Content="{Binding IsFavorite, 
-                                    Converter={StaticResource FavouriteIconConverts}}" 
-                                    Width="24" Height="24" Margin="5" 
-                                    Click="FavouriteButton_Click"
-                                    Tag="{Binding}"/>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="10,0,10,0" 
+                                           FontSize="20" 
+                                           FontWeight="Bold" 
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+<!-- 
+                                <ui:Button  Grid.Column="1" 
+                                            Icon="{ui:SymbolIcon Symbol=Heart32}"
+                                            Foreground="{Binding IsFavorite, 
+                                            Converter={StaticResource FavouriteIconConverts}}" 
+                                            Width="24" Height="24" Margin="5" 
+                                            Click="FavouriteButton_Click"
+                                            Tag="{Binding}"/>
+-->
+                                <ui:Button Grid.Column="1"
+                                           Icon="{ui:SymbolIcon Symbol=Heart32, FontSize=20}"
+                                           Foreground="{Binding IsFavorite, 
+                                           Converter={StaticResource FavouriteIconConverts}}"
+                                           Click="FavouriteButton_Click"
+                                           Tag="{Binding}"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ui:ListView.ItemTemplate>
+            </ui:ListView>
         </StackPanel>
     </Grid>
 </Page>

@@ -1,6 +1,6 @@
-﻿using BTL_CNPM.Model;
-using SQLite;
+﻿using SQLite;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TimeManagementProject.Models;
 using TimeManagementProject.ViewModel.Helpers;
 
 namespace BTL_CNPM.View
@@ -27,18 +28,17 @@ namespace BTL_CNPM.View
 			_todoLabel = label;
 			if (label != null)
 			{
-				textBoxId.Text = label.Id.ToString();
 				textBoxName.Text = label.Name.ToString();
 			}
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-
-        }
-
 		private void ButtonEdit_Click(object sender, RoutedEventArgs e)
 		{
+			MessageBoxResult mbr = MessageBox.Show("Are you sure to update this task?", "Update Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (mbr == MessageBoxResult.No)
+			{
+				return;
+			}
 			_todoLabel.Name = textBoxName.Text;
 			using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
 			{
@@ -51,26 +51,26 @@ namespace BTL_CNPM.View
 
 		private void ButtonDelete_Click(object sender, RoutedEventArgs e)
 		{
-
+			MessageBoxResult mbr = MessageBox.Show("Are you sure to delete this label?", "Delete Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (mbr == MessageBoxResult.No)
+			{
+				return;
+			}
 			if (_todoLabel != null)
 			{
 				using (SQLiteConnection conn = new SQLiteConnection(DatabaseVM.databasePath))
 				{
+					string delLabel = _todoLabel.Name;
 					conn.CreateTable<TodoLabel>();
 					conn.Delete(_todoLabel);
 
-					// Lấy danh sách còn lại sau khi xóa
-					List<TodoLabel> listTodoLabel = conn.Table<TodoLabel>().OrderBy(t => t.Id).ToList();
-
-					// Reset ID theo thứ tự mới
-					for (int i = 0; i < listTodoLabel.Count; i++)
+					conn.CreateTable<TaskObject>();
+					List<TaskObject> taskObjects = conn.Table<TaskObject>().Where(e => e.Label.Equals(delLabel)).ToList();
+					foreach(var task in taskObjects)
 					{
-						listTodoLabel[i].Id = i + 1;
-						conn.Update(listTodoLabel[i]);
+						task.Label = "None";
 					}
-
-					// Reset lại ID tự động tăng
-					conn.Execute("DELETE FROM sqlite_sequence WHERE name='TodoLabel'");
+					conn.UpdateAll(taskObjects);
 				}
 			}
 			this.Close();

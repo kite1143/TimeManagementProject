@@ -19,6 +19,7 @@ namespace TimeManagementProject.Models
 		public DateTime? StartDate { get; set; }
 		public bool isCompleted { get; set; }
 		public TimeSpan Timer { get; set; }
+		
 		public string Label { get; set; }
 		public TaskObject()
 		{
